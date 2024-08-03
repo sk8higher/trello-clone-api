@@ -1,5 +1,5 @@
 class ColumnsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show]
   respond_to :json
 
   def show
@@ -20,7 +20,7 @@ class ColumnsController < ApplicationController
 
     if @column.save
       render json: {
-        status: { code: 200, message: 'Column was successfully created.' },
+        status: { code: 200, message: 'Column was created successfully.' },
         data: ColumnSerializer.new(@column).serializable_hash[:data][:attributes]
       }
     else
@@ -28,6 +28,25 @@ class ColumnsController < ApplicationController
         code: 422, message: "Column couldn't be created successfully. #{@column.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
     end
   end
+
+
+  def destroy
+    @column = Column.find_by(id: params[:id])
+
+    if @column.nil?
+      render json: { code: 404, message: 'Column was not found.' }, status: 404
+      return
+    end
+
+    unless @column.user_id == current_user.id
+      render json: { code: 405, message: 'You have no rights to delete this column.' }, status: 405
+      return
+    end
+
+    @column.destroy
+    render json: {}, status: 204
+  end
+
 
   private
 
