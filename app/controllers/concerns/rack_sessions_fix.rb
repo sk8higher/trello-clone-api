@@ -1,5 +1,5 @@
 module RackSessionsFix
-  extend ActiveSupport::Corcern
+  extend ActiveSupport::Concern
 
   class FakeRackSession < Hash
     def enabled?
