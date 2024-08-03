@@ -8,4 +8,6 @@ class User < ApplicationRecord
 
   validates :email, format: { with: Devise.email_regexp }, presence: true
   validates :password, length: { minimum: 8 }, presence: true
+
+  has_many :columns
 end
