@@ -13,7 +13,9 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show] do
     resources :columns, except: [:new, :edit] do
-      resources :cards, except: [:new, :edit]
+      resources :cards, except: [:new, :edit] do
+        resources :comments, except: [:new, :edit]
+      end
     end
   end
 end
