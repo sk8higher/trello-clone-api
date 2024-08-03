@@ -11,4 +11,5 @@ class User < ApplicationRecord
 
   has_many :columns
   has_many :cards, through: :columns
+  has_many :comments
 end
