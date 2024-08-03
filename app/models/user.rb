@@ -3,4 +3,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :jwt_authenticatable, jwt_revocation_strategy: self
+
+  validates :email, format: { with: Devise.email_regexp }, presence: true
+  validates :password, length: { minimum: 8 }, presence: true
 end
