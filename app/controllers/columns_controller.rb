@@ -9,7 +9,7 @@ class ColumnsController < ApplicationController
   def show
     if Column.exists?(params[:id])
       render json: {
-        status: { code: 200, message: 'Column was found' },
+        status: { code: 200, message: 'Column was found'. },
         data: ColumnSerializer.new(Column.find(params[:id])).serializable_hash[:data][:attributes]
       }
     else
@@ -42,15 +42,19 @@ class ColumnsController < ApplicationController
     end
 
     unless @column.user_id == current_user.id
-      render json: { code: 405, message: 'You have no rights to update this column' }, status: 405
+      render json: { code: 405, message: 'You have no rights to update this column.' }, status: 405
       return
     end
 
-    @column.update(column_params)
-    render json: {
-      status: { code: 202, message: 'Column was updated successfully.' },
-      data: ColumnSerializer.new(@column).serializable_hash[:data][:attributes]
-    }
+    if @column.update(column_params)
+      render json: {
+        status: { code: 202, message: 'Column was updated successfully.' },
+        data: ColumnSerializer.new(@column).serializable_hash[:data][:attributes]
+      }
+    else
+      render json: {
+        code: 422, message: "Column couldn't be updated successfully. #{@column.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
+    end
   end
 
 
