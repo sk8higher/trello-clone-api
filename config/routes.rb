@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  get 'columns/show'
-  get 'columns/create'
   devise_for :users, path: '', path_names: {
      sign_in: 'login',
      sign_out: 'logout',
@@ -14,6 +12,8 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [:show] do
-    resources :columns, only: [:index, :create, :show, :destroy, :update]
+    resources :columns, except: [:new, :edit] do
+      resources :cards, except: [:new, :edit]
+    end
   end
 end
