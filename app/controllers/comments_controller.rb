@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CommentsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :index]
+  before_action :authenticate_user!, except: %i[show index]
   respond_to :json
 
   def index
@@ -22,7 +24,6 @@ class CommentsController < ApplicationController
   def create
     @comment = current_user.comments.new(comment_params.merge(card_id: params[:card_id]))
 
-
     if @comment.save
       render json: {
         status: { code: 422, message: 'Comment was created successfully.' },
@@ -30,7 +31,8 @@ class CommentsController < ApplicationController
       }
     else
       render json: {
-        code: 422, message: "Comment couldn't be created successfully. #{@comment.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
+        code: 422, message: "Comment couldn't be created successfully. #{@comment.errors.full_messages.to_sentence}"
+      }, status: :unprocessable_entity
     end
   end
 
@@ -54,7 +56,8 @@ class CommentsController < ApplicationController
       }
     else
       render json: {
-        code: 422, message: "Comment couldn't be updated successfully. #{@comment.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
+        code: 422, message: "Comment couldn't be updated successfully. #{@comment.errors.full_messages.to_sentence}"
+      }, status: :unprocessable_entity
     end
   end
 

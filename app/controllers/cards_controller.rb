@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CardsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: %i[index show]
   respond_to :json
 
   def index
@@ -29,7 +31,8 @@ class CardsController < ApplicationController
       }
     else
       render json: {
-        code: 422, message: "Card couldn't be created successfully. #{@card.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
+        code: 422, message: "Card couldn't be created successfully. #{@card.errors.full_messages.to_sentence}"
+      }, status: :unprocessable_entity
     end
   end
 
@@ -52,7 +55,8 @@ class CardsController < ApplicationController
       }
     else
       render json: {
-        code: 422, message: "Card couldn't be updated successfully. #{@card.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
+        code: 422, message: "Card couldn't be updated successfully. #{@card.errors.full_messages.to_sentence}"
+      }, status: :unprocessable_entity
     end
   end
 
