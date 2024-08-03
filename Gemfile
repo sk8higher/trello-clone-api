@@ -1,21 +1,23 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby "3.3.2"
+source 'https://rubygems.org'
 
-gem "rails", "~> 7.1.3", ">= 7.1.3.4"
-gem "pg", "~> 1.1"
-gem "puma", ">= 5.0"
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-gem "bootsnap", require: false
-gem "devise", "~> 4.9"
-gem "devise_token_auth", "~> 1.2"
-gem "devise-jwt"
-gem "jsonapi-serializer"
-gem "rack-cors"
+ruby '3.3.2'
+
+gem 'bootsnap', require: false
+gem 'devise', '~> 4.9'
+gem 'devise-jwt'
+gem 'devise_token_auth', '~> 1.2'
+gem 'jsonapi-serializer'
+gem 'pg', '~> 1.1'
+gem 'puma', '>= 5.0'
+gem 'rack-cors'
+gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  gem 'debug', platforms: %i[mri windows]
 end
 
 group :development do
