@@ -1,6 +1,10 @@
 class ColumnsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show, :index]
   respond_to :json
+
+  def index
+    render json: User.find(params[:user_id]).columns
+  end
 
   def show
     if Column.exists?(params[:id])
@@ -27,6 +31,26 @@ class ColumnsController < ApplicationController
       render json: {
         code: 422, message: "Column couldn't be created successfully. #{@column.errors.full_messages.to_sentence}" }, status: :unprocessable_entity
     end
+  end
+
+  def update
+    @column = Column.find_by(id: params[:id])
+
+    if @column.nil?
+      render json: { code: 404, message: 'Column was not found.' }, status: 404
+      return
+    end
+
+    unless @column.user_id == current_user.id
+      render json: { code: 405, message: 'You have no rights to update this column' }, status: 405
+      return
+    end
+
+    @column.update(column_params)
+    render json: {
+      status: { code: 202, message: 'Column was updated successfully.' },
+      data: ColumnSerializer.new(@column).serializable_hash[:data][:attributes]
+    }
   end
 
 

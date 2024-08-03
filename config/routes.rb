@@ -14,6 +14,6 @@ Rails.application.routes.draw do
   }
 
   resources :users, only: [:show] do
-    resources :columns, only: [:create, :show, :destroy]
+    resources :columns, only: [:index, :create, :show, :destroy, :update]
   end
 end
